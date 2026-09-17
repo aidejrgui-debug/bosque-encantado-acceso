@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <title>Bosque Encantado - Acceso</title>
+
+  <script
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0d110e;
+      color: white;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    }
+
+    .contenedor {
+      max-width: 500px;
+      margin: auto;
+      padding: 32px 18px 50px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 31px;
+      margin: 12px 0 5px;
+    }
+
+    .subtitulo {
+      color: #bbc2bd;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    .tarjeta {
+      background: #171b18;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #454b46;
+      background: #0e110f;
+      color: white;
+      font-size: 22px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .principal {
+      background: white;
+      color: #111;
+    }
+
+    .secundario {
+      background: #303530;
+      color: white;
+    }
+
+    #zonaScanner {
+      display: none;
+    }
+
+    #reader {
+      width: 100%;
+      margin-top: 15px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: white;
+    }
+
+    #resultado {
+      display: none;
+      padding: 27px 14px;
+      margin-top: 18px;
+      border-radius: 15px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .valido {
+      background: #19753c;
+    }
+
+    .usado {
+      background: #a1241e;
+    }
+
+    .invalido {
+      background: #851913;
+    }
+
+    .procesando {
+      background: #745917;
+    }
+
+    .hora {
+      font-size: 15px;
+      font-weight: normal;
+      margin-top: 10px;
+    }
+
+    #mensajePin {
+      min-height: 23px;
+      margin-top: 12px;
+      color: #ffaaaa;
+    }
+
+    .nota {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #bbc2bd;
+      margin-top: 15px;
+    }
+
+    #archivoQR {
+      display: none;
+    }
+
+    .botonArchivo {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-top: 12px;
+      border-radius: 12px;
+      background: #303530;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+  <h1>🌲 BOSQUE ENCANTADO</h1>
+
+  <div class="subtitulo">
+    Control de acceso
+  </div>
+
+
+  <div
+    id="login"
+    class="tarjeta"
+  >
+
+    <p>
+      Introduce el PIN del personal
+    </p>
+
+    <input
+      id="pin"
+      type="password"
+      inputmode="numeric"
+      placeholder="PIN"
+    >
+
+    <button
+      class="principal"
+      onclick="entrar()"
+    >
+      ENTRAR
+    </button>
+
+    <div id="mensajePin"></div>
+
+  </div>
+
+
+  <div
+    id="zonaScanner"
+    class="tarjeta"
+  >
+
+    <button
+      id="botonCamara"
+      class="principal"
+      onclick="iniciarScanner()"
+    >
+      📷 ACTIVAR CÁMARA
+    </button>
+
+
+    <div id="reader"></div>
+
+
+    <div id="resultado"></div>
+
+
+    <button
+      id="siguiente"
+      class="principal"
+      style="display:none"
+      onclick="reanudarScanner()"
+    >
+      ESCANEAR SIGUIENTE
+    </button>
+
+
+    <label
+      for="archivoQR"
+      class="botonArchivo"
+    >
+      🖼️ LEER QR DESDE FOTO
+    </label>
+
+    <input
+      id="archivoQR"
+      type="file"
+      accept="image/*"
+    >
+
+
+    <button
+      class="secundario"
+      onclick="cerrarSesion()"
+    >
+      Cambiar PIN
+    </button>
+
+
+    <div class="nota">
+      Si el navegador pide permiso para usar la cámara,
+      selecciona <b>Permitir</b>.
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const API =
+  "https://zpfedlmskvfroqxeciex.supabase.co/functions/v1/bosque-acceso";
+
+
+let pinPersonal = "";
+
+let scanner = null;
+
+let procesando = false;
+
+
+/* =========================
+   PIN
+   ========================= */
+
+async function entrar() {
+
+  const pin =
+    document
+      .getElementById("pin")
+      .value
+      .trim();
+
+
+  if (!pin) {
+    return;
+  }
+
+
+  const mensaje =
+    document.getElementById(
+      "mensajePin"
+    );
+
+
+  mensaje.innerText =
+    "Comprobando...";
+
+
+  try {
+
+    const respuesta =
+      await fetch(
+        API,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              action: "pin",
+              pin: pin
+            })
+        }
+      );
+
+
+    const datos =
+      await respuesta.json();
+
+
+    if (!datos.ok) {
+
+      mensaje.innerText =
+        "PIN incorrecto";
+
+      return;
+    }
+
+
+    pinPersonal =
+      pin;
+
+
+    sessionStorage.setItem(
+      "bosque_pin",
+      pin
+    );
+
+
+    document
+      .getElementById("login")
+      .style.display =
+      "none";
+
+
+    document
+      .getElementById(
+        "zonaScanner"
+      )
+      .style.display =
+      "block";
+
+
+  } catch (error) {
+
+    mensaje.innerText =
+      "No se pudo conectar con el sistema";
+  }
+}
+
+
+
+/* =========================
+   CÁMARA
+   ========================= */
+
+async function iniciarScanner() {
+
+  ocultarResultado();
+
+  procesando = false;
+
+
+  document
+    .getElementById(
+      "botonCamara"
+    )
+    .style.display =
+    "none";
+
+
+  scanner =
+    new Html5Qrcode(
+      "reader"
+    );
+
+
+  try {
+
+    await scanner.start(
+
+      {
+        facingMode:
+          "environment"
+      },
+
+      {
+        fps: 10,
+
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+
+      codigoDetectado,
+
+      function () {}
+    );
+
+
+  } catch (error) {
+
+    mostrarResultado(
+      "⚠️ NO SE PUDO ABRIR LA CÁMARA" +
+      '<div class="hora">' +
+      "Revisa el permiso de cámara del navegador o utiliza la opción de leer QR desde foto." +
+      "</div>",
+
+      "invalido"
+    );
+
+
+    document
+      .getElementById(
+        "botonCamara"
+      )
+      .style.display =
+      "block";
+  }
+}
+
+
+
+/* =========================
+   QR DETECTADO
+   ========================= */
+
+async function codigoDetectado(
+  codigo
+) {
+
+  if (procesando) {
+    return;
+  }
+
+
+  procesando =
+    true;
+
+
+  try {
+
+    scanner.pause(true);
+
+  } catch (error) {}
+
+
+  await validarBoleto(
+    codigo
+  );
+}
+
+
+
+/* =========================
+   VALIDAR BOLETO
+   ========================= */
+
+async function validarBoleto(
+  codigo
+) {
+
+  mostrarResultado(
+    "Validando...",
+    "procesando"
+  );
+
+
+  try {
+
+    const respuesta =
+      await fetch(
+        API,
+        {
+          method:
+            "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              action:
+                "scan",
+
+              pin:
+                pinPersonal,
+
+              codigo:
+                codigo
+            })
+        }
+      );
+
+
+    const r =
+      await respuesta.json();
+
+
+    if (r.ok) {
+
+      mostrarResultado(
+
+        "✅ ACCESO VÁLIDO" +
+
+        "<br><br>" +
+
+        escapar(
+          r.folio
+        ) +
+
+        '<div class="hora">' +
+
+        escapar(
+          r.hora
+        ) +
+
+        "</div>",
+
+        "valido"
+      );
+
+    }
+
+
+    else if (
+      r.tipo === "usado"
+    ) {
+
+      mostrarResultado(
+
+        "⛔ BOLETO YA UTILIZADO" +
+
+        "<br><br>" +
+
+        escapar(
+          r.folio
+        ) +
+
+        '<div class="hora">' +
+
+        "Entrada registrada:<br>" +
+
+        escapar(
+          r.hora
+        ) +
+
+        "</div>",
+
+        "usado"
+      );
+
+    }
+
+
+    else if (
+      r.tipo === "pin"
+    ) {
+
+      sessionStorage
+        .removeItem(
+          "bosque_pin"
+        );
+
+
+      mostrarResultado(
+        "⛔ PIN NO AUTORIZADO",
+        "invalido"
+      );
+
+    }
+
+
+    else {
+
+      mostrarResultado(
+        "❌ BOLETO NO VÁLIDO",
+        "invalido"
+      );
+    }
+
+
+    document
+      .getElementById(
+        "siguiente"
+      )
+      .style.display =
+      "block";
+
+
+  } catch (error) {
+
+    mostrarResultado(
+
+      "⚠️ ERROR DE CONEXIÓN" +
+
+      '<div class="hora">' +
+
+      "El boleto NO fue confirmado." +
+
+      "</div>",
+
+      "invalido"
+    );
+
+
+    document
+      .getElementById(
+        "siguiente"
+      )
+      .style.display =
+      "block";
+  }
+}
+
+
+
+/* =========================
+   SIGUIENTE
+   ========================= */
+
+function reanudarScanner() {
+
+  procesando =
+    false;
+
+
+  ocultarResultado();
+
+
+  document
+    .getElementById(
+      "siguiente"
+    )
+    .style.display =
+    "none";
+
+
+  try {
+
+    scanner.resume();
+
+  } catch (error) {
+
+    iniciarScanner();
+  }
+}
+
+
+
+/* =========================
+   FOTO COMO RESPALDO
+   ========================= */
+
+document
+  .getElementById(
+    "archivoQR"
+  )
+  .addEventListener(
+    "change",
+
+    async function(event) {
+
+      const archivo =
+        event
+          .target
+          .files[0];
+
+
+      if (!archivo) {
+        return;
+      }
+
+
+      ocultarResultado();
+
+
+      try {
+
+        const lector =
+          new Html5Qrcode(
+            "reader"
+          );
+
+
+        const codigo =
+          await lector.scanFile(
+            archivo,
+            true
+          );
+
+
+        await validarBoleto(
+          codigo
+        );
+
+
+      } catch (error) {
+
+        mostrarResultado(
+
+          "❌ NO PUDE LEER EL QR" +
+
+          '<div class="hora">' +
+
+          "Intenta con una foto más clara." +
+
+          "</div>",
+
+          "invalido"
+        );
+      }
+
+
+      event.target.value =
+        "";
+    }
+  );
+
+
+
+/* =========================
+   INTERFAZ
+   ========================= */
+
+function mostrarResultado(
+  texto,
+  clase
+) {
+
+  const resultado =
+    document.getElementById(
+      "resultado"
+    );
+
+
+  resultado.className =
+    clase;
+
+
+  resultado.innerHTML =
+    texto;
+
+
+  resultado.style.display =
+    "block";
+}
+
+
+
+function ocultarResultado() {
+
+  const resultado =
+    document.getElementById(
+      "resultado"
+    );
+
+
+  resultado.style.display =
+    "none";
+
+
+  resultado.innerHTML =
+    "";
+}
+
+
+
+function cerrarSesion() {
+
+  sessionStorage
+    .removeItem(
+      "bosque_pin"
+    );
+
+
+  location.reload();
+}
+
+
+
+function escapar(valor) {
+
+  return String(
+    valor || ""
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+}
+
+
+
+/* =========================
+   RECORDAR PIN DURANTE
+   LA SESIÓN
+   ========================= */
+
+window.onload =
+async function() {
+
+  const guardado =
+    sessionStorage.getItem(
+      "bosque_pin"
+    );
+
+
+  if (!guardado) {
+    return;
+  }
+
+
+  document
+    .getElementById("pin")
+    .value =
+    guardado;
+
+
+  await entrar();
+};
+
+</script>
+
+</body>
+</html>
