@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -8,12 +10,15 @@
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
 
-  <title>Halloween: Bosque Encantado - Control de acceso</title>
+  <title>
+    Halloween: Bosque Encantado - Control de acceso
+  </title>
 
-  <!-- Lector de QR -->
+
   <script
     src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
   </script>
+
 
   <style>
 
@@ -21,11 +26,15 @@
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       min-height: 100vh;
 
       background: #080d0a;
+
       color: white;
 
       font-family:
@@ -43,56 +52,77 @@
 
 
     .app {
+
       width: 100%;
+
       max-width: 720px;
+
       margin: 0 auto;
     }
 
 
-    /* ==========================
+    /* =========================
        ENCABEZADO
-    ========================== */
+    ========================= */
 
     .header {
+
       text-align: center;
+
       margin-bottom: 30px;
     }
 
+
     .header h1 {
+
       margin: 0;
 
-      font-size: clamp(32px, 8vw, 52px);
+      font-size:
+        clamp(32px, 8vw, 52px);
+
       line-height: 1.02;
 
       font-weight: 900;
+
       letter-spacing: -1px;
     }
 
-    .header h1 .linea1 {
+
+    .header .linea1 {
+
       display: block;
+
       font-size: 0.67em;
+
       margin-bottom: 6px;
     }
 
-    .header h1 .linea2 {
+
+    .header .linea2 {
+
       display: block;
     }
 
-    .header .subtitulo {
+
+    .subtitulo {
+
       margin-top: 18px;
 
       color: #aeb7b0;
 
-      font-size: clamp(20px, 5vw, 28px);
+      font-size:
+        clamp(20px, 5vw, 28px);
+
       font-weight: 700;
     }
 
 
-    /* ==========================
-       TARJETA
-    ========================== */
+    /* =========================
+       PANEL
+    ========================= */
 
     .panel {
+
       background: #111712;
 
       border-radius: 30px;
@@ -100,72 +130,92 @@
       padding: 26px;
 
       box-shadow:
-        0 20px 70px rgba(0, 0, 0, 0.25);
+        0 20px 70px
+        rgba(0, 0, 0, 0.25);
     }
 
 
-    /* ==========================
+    /* =========================
        BOTONES
-    ========================== */
+    ========================= */
 
     button {
+
       width: 100%;
 
       border: 0;
+
       border-radius: 22px;
 
       padding: 23px 16px;
 
-      font-size: clamp(19px, 5vw, 28px);
+      font-size:
+        clamp(19px, 5vw, 28px);
+
       font-weight: 900;
 
       cursor: pointer;
-
-      transition:
-        transform 0.1s ease,
-        opacity 0.1s ease;
     }
 
+
     button:active {
+
       transform: scale(0.985);
     }
 
+
     button:disabled {
+
       opacity: 0.55;
+
       cursor: default;
     }
 
+
     .btn-principal {
+
       background: white;
+
       color: #111;
     }
 
+
     .btn-secundario {
+
       background: #2b312d;
+
       color: white;
     }
 
+
     .btn-siguiente {
+
       background: white;
+
       color: #111;
 
       margin-top: 24px;
     }
 
+
     .espacio {
+
       height: 18px;
     }
 
 
-    /* ==========================
+    /* =========================
        LOGIN
-    ========================== */
+    ========================= */
 
     #loginScreen {
+
       display: none;
     }
 
+
     .pin-label {
+
       display: block;
 
       margin-bottom: 12px;
@@ -173,12 +223,15 @@
       text-align: center;
 
       font-size: 18px;
+
       font-weight: 800;
 
       color: #d9dfda;
     }
 
+
     #pinInput {
+
       width: 100%;
 
       padding: 20px;
@@ -186,14 +239,17 @@
       margin-bottom: 18px;
 
       border: 2px solid #303832;
+
       border-radius: 18px;
 
       background: #080d0a;
+
       color: white;
 
       text-align: center;
 
       font-size: 27px;
+
       font-weight: 800;
 
       letter-spacing: 5px;
@@ -201,20 +257,41 @@
       outline: none;
     }
 
+
     #pinInput:focus {
-      border-color: #fff;
+
+      border-color: white;
     }
 
 
-    /* ==========================
+    #mensajePin {
+
+      display: none;
+
+      margin-top: 16px;
+
+      text-align: center;
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+      color: #ff6961;
+    }
+
+
+    /* =========================
        SCANNER
-    ========================== */
+    ========================= */
 
     #scannerScreen {
+
       display: none;
     }
 
+
     .scanner-box {
+
       position: relative;
 
       width: 100%;
@@ -226,81 +303,109 @@
       background: #000;
     }
 
+
     #reader {
+
       width: 100%;
+
       min-height: 320px;
 
       background: #000;
     }
 
+
     #reader video {
+
       object-fit: cover !important;
+
       border-radius: 24px;
     }
 
 
-    /* Quitamos algunos elementos visuales
-       internos de html5-qrcode */
     #reader__dashboard_section_swaplink,
     #reader__dashboard_section_csr,
     #reader__status_span {
+
       display: none !important;
     }
 
 
     .scanner-overlay {
+
       pointer-events: none;
 
       position: absolute;
+
       inset: 0;
 
       display: flex;
+
       justify-content: center;
+
       align-items: center;
 
       z-index: 5;
     }
 
+
     .scanner-frame {
+
       width: 78%;
+
       aspect-ratio: 1 / 1;
 
       position: relative;
     }
 
+
     .corner {
+
       position: absolute;
 
       width: 72px;
+
       height: 72px;
 
       border-color: #6cff43;
+
       border-style: solid;
     }
 
+
     .c1 {
+
       top: 0;
+
       left: 0;
 
       border-width: 8px 0 0 8px;
     }
 
+
     .c2 {
+
       top: 0;
+
       right: 0;
 
       border-width: 8px 8px 0 0;
     }
 
+
     .c3 {
+
       bottom: 0;
+
       left: 0;
 
       border-width: 0 0 8px 8px;
     }
 
+
     .c4 {
+
       bottom: 0;
+
       right: 0;
 
       border-width: 0 8px 8px 0;
@@ -308,12 +413,15 @@
 
 
     .scanner-status {
+
       position: absolute;
 
       top: 10px;
+
       left: 50%;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
       z-index: 7;
 
@@ -321,22 +429,25 @@
 
       border-radius: 100px;
 
-      background: rgba(0, 0, 0, 0.55);
+      background:
+        rgba(0, 0, 0, 0.55);
 
       color: white;
 
       font-size: 16px;
+
       font-weight: 700;
 
       backdrop-filter: blur(8px);
     }
 
 
-    /* ==========================
+    /* =========================
        RESULTADOS
-    ========================== */
+    ========================= */
 
     #resultado {
+
       display: none;
 
       margin-top: 24px;
@@ -348,49 +459,68 @@
       text-align: center;
     }
 
+
     #resultado.valido {
+
       background: #147d35;
     }
 
+
     #resultado.error {
+
       background: #ad231d;
     }
 
+
     #resultado.advertencia {
+
       background: #a75c08;
     }
 
+
     #resultado h2 {
+
       margin: 0;
 
-      font-size: clamp(28px, 7vw, 42px);
+      font-size:
+        clamp(28px, 7vw, 42px);
+
       line-height: 1.08;
 
       font-weight: 950;
     }
 
+
     #resultado .folio {
+
       margin-top: 28px;
 
-      font-size: clamp(27px, 7vw, 40px);
+      font-size:
+        clamp(27px, 7vw, 40px);
+
       font-weight: 950;
     }
 
+
     #resultado .detalle {
+
       margin-top: 19px;
 
-      font-size: clamp(17px, 4.5vw, 22px);
+      font-size:
+        clamp(17px, 4.5vw, 22px);
+
       line-height: 1.4;
 
       font-weight: 700;
     }
 
 
-    /* ==========================
-       TEXTO AYUDA
-    ========================== */
+    /* =========================
+       AYUDA
+    ========================= */
 
     .ayuda {
+
       margin: 22px 10px 2px;
 
       text-align: center;
@@ -398,6 +528,7 @@
       color: #acb4ae;
 
       font-size: 17px;
+
       line-height: 1.4;
 
       font-weight: 650;
@@ -405,11 +536,13 @@
 
 
     .oculto {
+
       display: none !important;
     }
 
 
     #fileInput {
+
       display: none;
     }
 
@@ -417,212 +550,234 @@
     @media (max-width: 520px) {
 
       body {
+
         padding-left: 14px;
+
         padding-right: 14px;
       }
 
+
       .panel {
+
         padding: 20px;
+
         border-radius: 26px;
       }
 
+
       .corner {
+
         width: 55px;
+
         height: 55px;
       }
-
     }
 
   </style>
+
 </head>
+
 
 
 <body>
 
-  <main class="app">
-
-    <!-- ==========================
-         ENCABEZADO
-    =========================== -->
-
-    <header class="header">
-
-      <h1>
-        <span class="linea1">Halloween:</span>
-
-        <span class="linea2">
-          Bosque Encantado<br>
-          🎃🧝🏼‍♂️🦄
-        </span>
-      </h1>
-
-      <div class="subtitulo">
-        Control de acceso
-      </div>
-
-    </header>
+<main class="app">
 
 
+  <!-- =========================
+       TÍTULO
+  ========================== -->
 
-    <!-- ==========================
-         LOGIN PIN
-    =========================== -->
+  <header class="header">
 
-    <section
-      id="loginScreen"
-      class="panel"
+    <h1>
+
+      <span class="linea1">
+        Halloween:
+      </span>
+
+      <span class="linea2">
+        Bosque Encantado<br>
+        🎃🧝🏼‍♂️🦄
+      </span>
+
+    </h1>
+
+
+    <div class="subtitulo">
+      Control de acceso
+    </div>
+
+  </header>
+
+
+
+  <!-- =========================
+       PIN
+  ========================== -->
+
+  <section
+    id="loginScreen"
+    class="panel"
+  >
+
+    <label
+      for="pinInput"
+      class="pin-label"
+    >
+      PIN DEL PERSONAL
+    </label>
+
+
+    <input
+      id="pinInput"
+      type="password"
+      inputmode="numeric"
+      autocomplete="off"
+      placeholder="••••••••"
     >
 
-      <label
-        for="pinInput"
-        class="pin-label"
-      >
-        PIN DEL PERSONAL
-      </label>
 
-      <input
-        id="pinInput"
-        type="password"
-        inputmode="numeric"
-        autocomplete="off"
-        placeholder="••••"
-      >
+    <button
+      id="btnEntrar"
+      class="btn-principal"
+    >
+      ENTRAR
+    </button>
 
-      <button
-        id="btnEntrar"
-        class="btn-principal"
-      >
-        ENTRAR
-      </button>
 
-      <p class="ayuda">
-        Ingresa el PIN asignado al personal de acceso.
-      </p>
+    <div id="mensajePin">
+      PIN incorrecto
+    </div>
 
-    </section>
+
+    <p class="ayuda">
+      Ingresa el PIN autorizado
+      para el personal de acceso.
+    </p>
+
+  </section>
 
 
 
-    <!-- ==========================
-         ESCÁNER
-    =========================== -->
+  <!-- =========================
+       SCANNER
+  ========================== -->
 
-    <section
-      id="scannerScreen"
-      class="panel"
+  <section
+    id="scannerScreen"
+    class="panel"
+  >
+
+
+    <button
+      id="btnCamara"
+      class="btn-principal"
+    >
+      📷 ACTIVAR CÁMARA
+    </button>
+
+
+    <div
+      id="scannerContainer"
+      class="scanner-box oculto"
     >
 
-      <!-- Botón antes de activar cámara -->
-
-      <button
-        id="btnCamara"
-        class="btn-principal"
-      >
-        📷 ACTIVAR CÁMARA
-      </button>
+      <div id="reader"></div>
 
 
       <div
-        id="scannerContainer"
-        class="scanner-box oculto"
+        id="scannerStatus"
+        class="scanner-status"
       >
+        Scanner activo
+      </div>
 
-        <div id="reader"></div>
 
-        <div
-          id="scannerStatus"
-          class="scanner-status"
-        >
-          Scanner activo
-        </div>
+      <div class="scanner-overlay">
 
-        <div class="scanner-overlay">
+        <div class="scanner-frame">
 
-          <div class="scanner-frame">
+          <div class="corner c1"></div>
 
-            <div class="corner c1"></div>
-            <div class="corner c2"></div>
-            <div class="corner c3"></div>
-            <div class="corner c4"></div>
+          <div class="corner c2"></div>
 
-          </div>
+          <div class="corner c3"></div>
+
+          <div class="corner c4"></div>
 
         </div>
 
       </div>
 
-
-      <!-- RESULTADO -->
-
-      <div id="resultado">
-
-        <h2 id="resultadoTitulo"></h2>
-
-        <div
-          id="resultadoFolio"
-          class="folio"
-        ></div>
-
-        <div
-          id="resultadoDetalle"
-          class="detalle"
-        ></div>
-
-      </div>
+    </div>
 
 
-      <button
-        id="btnSiguiente"
-        class="btn-siguiente oculto"
-      >
-        ESCANEAR SIGUIENTE
-      </button>
+
+    <!-- RESULTADO -->
+
+    <div id="resultado">
+
+      <h2 id="resultadoTitulo"></h2>
+
+      <div
+        id="resultadoFolio"
+        class="folio"
+      ></div>
+
+      <div
+        id="resultadoDetalle"
+        class="detalle"
+      ></div>
+
+    </div>
 
 
-      <div class="espacio"></div>
+
+    <button
+      id="btnSiguiente"
+      class="btn-siguiente oculto"
+    >
+      ESCANEAR SIGUIENTE
+    </button>
 
 
-      <button
-        id="btnFoto"
-        class="btn-secundario"
-      >
-        🖼️ LEER QR DESDE FOTO
-      </button>
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-      >
+    <div class="espacio"></div>
 
 
-      <div class="espacio"></div>
+    <button
+      id="btnFoto"
+      class="btn-secundario"
+    >
+      🖼️ LEER QR DESDE FOTO
+    </button>
 
 
-      <button
-        id="btnCambiarPin"
-        class="btn-secundario"
-      >
-        Cambiar PIN
-      </button>
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/*"
+    >
 
 
-      <p class="ayuda">
-        Si el navegador pide permiso para usar la cámara,
-        selecciona <strong>Permitir</strong>.
-      </p>
+    <p class="ayuda">
+      Si el navegador pide permiso
+      para usar la cámara,
+      selecciona
+      <strong>Permitir</strong>.
+    </p>
 
-    </section>
+  </section>
 
-  </main>
+</main>
 
 
 
 <script>
 
-  /* =========================================================
-     CONFIGURACIÓN
-  ========================================================= */
+  /* ==========================================
+     BACKEND DE PRODUCCIÓN
+  ========================================== */
 
   const API_URL =
     "https://script.google.com/macros/s/AKfycby3pVxZWxR1RdoAucq5f0urDr6r1G-MewtEC0vK-8U6Gy-BuR1Q1C5IfDUpbxTVc9uC/exec";
@@ -633,60 +788,104 @@
 
 
 
-  /* =========================================================
+  /* ==========================================
      ELEMENTOS
-  ========================================================= */
+  ========================================== */
 
   const loginScreen =
-    document.getElementById("loginScreen");
+    document.getElementById(
+      "loginScreen"
+    );
+
 
   const scannerScreen =
-    document.getElementById("scannerScreen");
+    document.getElementById(
+      "scannerScreen"
+    );
+
 
   const pinInput =
-    document.getElementById("pinInput");
+    document.getElementById(
+      "pinInput"
+    );
+
 
   const btnEntrar =
-    document.getElementById("btnEntrar");
+    document.getElementById(
+      "btnEntrar"
+    );
+
+
+  const mensajePin =
+    document.getElementById(
+      "mensajePin"
+    );
+
 
   const btnCamara =
-    document.getElementById("btnCamara");
+    document.getElementById(
+      "btnCamara"
+    );
+
 
   const btnFoto =
-    document.getElementById("btnFoto");
+    document.getElementById(
+      "btnFoto"
+    );
+
 
   const fileInput =
-    document.getElementById("fileInput");
+    document.getElementById(
+      "fileInput"
+    );
 
-  const btnCambiarPin =
-    document.getElementById("btnCambiarPin");
 
   const btnSiguiente =
-    document.getElementById("btnSiguiente");
+    document.getElementById(
+      "btnSiguiente"
+    );
+
 
   const scannerContainer =
-    document.getElementById("scannerContainer");
+    document.getElementById(
+      "scannerContainer"
+    );
+
 
   const scannerStatus =
-    document.getElementById("scannerStatus");
+    document.getElementById(
+      "scannerStatus"
+    );
+
 
   const resultado =
-    document.getElementById("resultado");
+    document.getElementById(
+      "resultado"
+    );
+
 
   const resultadoTitulo =
-    document.getElementById("resultadoTitulo");
+    document.getElementById(
+      "resultadoTitulo"
+    );
+
 
   const resultadoFolio =
-    document.getElementById("resultadoFolio");
+    document.getElementById(
+      "resultadoFolio"
+    );
+
 
   const resultadoDetalle =
-    document.getElementById("resultadoDetalle");
+    document.getElementById(
+      "resultadoDetalle"
+    );
 
 
 
-  /* =========================================================
+  /* ==========================================
      VARIABLES
-  ========================================================= */
+  ========================================== */
 
   let qrScanner = null;
 
@@ -696,27 +895,49 @@
 
   let procesando = false;
 
-  let reiniciarCamaraDespuesDeFoto = false;
+  let reiniciarCamaraDespuesDeFoto =
+    false;
 
 
 
-  /* =========================================================
-     INICIO
-  ========================================================= */
+  /* ==========================================
+     INICIAR
+  ========================================== */
 
   iniciar();
 
 
-  function iniciar() {
+  async function iniciar() {
 
     const pinGuardado =
-      localStorage.getItem(PIN_KEY);
+      localStorage.getItem(
+        PIN_KEY
+      );
 
-    if (pinGuardado) {
+
+    if (!pinGuardado) {
+
+      mostrarLogin();
+
+      return;
+    }
+
+
+    const valido =
+      await comprobarPin(
+        pinGuardado
+      );
+
+
+    if (valido) {
 
       mostrarScanner();
 
     } else {
+
+      localStorage.removeItem(
+        PIN_KEY
+      );
 
       mostrarLogin();
     }
@@ -724,28 +945,39 @@
 
 
 
-  /* =========================================================
-     PIN
-  ========================================================= */
+  /* ==========================================
+     LOGIN
+  ========================================== */
 
   function mostrarLogin() {
 
-    loginScreen.style.display = "block";
+    loginScreen.style.display =
+      "block";
 
-    scannerScreen.style.display = "none";
+    scannerScreen.style.display =
+      "none";
 
-    setTimeout(() => {
-      pinInput.focus();
-    }, 200);
+
+    mensajePin.style.display =
+      "none";
+
+
+    setTimeout(
+      () => pinInput.focus(),
+      200
+    );
   }
 
 
   function mostrarScanner() {
 
-    loginScreen.style.display = "none";
+    loginScreen.style.display =
+      "none";
 
-    scannerScreen.style.display = "block";
+    scannerScreen.style.display =
+      "block";
   }
+
 
 
   btnEntrar.addEventListener(
@@ -756,60 +988,147 @@
 
   pinInput.addEventListener(
     "keydown",
-    (event) => {
+    event => {
 
       if (event.key === "Enter") {
+
         guardarPin();
       }
     }
   );
 
 
-  function guardarPin() {
+
+  async function guardarPin() {
 
     const pin =
       pinInput.value.trim();
 
+
+    mensajePin.style.display =
+      "none";
+
+
     if (!pin) {
 
-      alert(
-        "Ingresa el PIN del personal."
-      );
+      mensajePin.textContent =
+        "Ingresa el PIN.";
+
+      mensajePin.style.display =
+        "block";
 
       return;
     }
 
-    localStorage.setItem(
-      PIN_KEY,
-      pin
-    );
 
-    pinInput.value = "";
+    btnEntrar.disabled = true;
 
-    mostrarScanner();
+    btnEntrar.textContent =
+      "VERIFICANDO...";
+
+
+    const valido =
+      await comprobarPin(pin);
+
+
+    if (valido) {
+
+      localStorage.setItem(
+        PIN_KEY,
+        pin
+      );
+
+
+      pinInput.value = "";
+
+
+      mostrarScanner();
+
+    } else {
+
+      localStorage.removeItem(
+        PIN_KEY
+      );
+
+
+      pinInput.value = "";
+
+
+      mensajePin.textContent =
+        "PIN incorrecto";
+
+
+      mensajePin.style.display =
+        "block";
+
+
+      pinInput.focus();
+    }
+
+
+    btnEntrar.disabled = false;
+
+    btnEntrar.textContent =
+      "ENTRAR";
   }
 
 
 
-  btnCambiarPin.addEventListener(
-    "click",
-    async () => {
+  async function comprobarPin(pin) {
 
-      localStorage.removeItem(PIN_KEY);
+    try {
 
-      await detenerCamara();
+      const respuesta =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
 
-      limpiarResultado();
+            redirect: "follow",
 
-      mostrarLogin();
+            cache: "no-store",
+
+            headers: {
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify({
+              accion: "validar_pin",
+              pin: pin
+            })
+          }
+        );
+
+
+      const texto =
+        await respuesta.text();
+
+
+      const datos =
+        JSON.parse(texto);
+
+
+      return (
+        datos.ok === true &&
+        datos.estado ===
+          "PIN_VALIDO"
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      return false;
     }
-  );
+  }
 
 
 
-  /* =========================================================
-     CÁMARA
-  ========================================================= */
+  /* ==========================================
+     ACTIVAR CÁMARA
+  ========================================== */
 
   btnCamara.addEventListener(
     "click",
@@ -820,6 +1139,7 @@
   async function activarCamara() {
 
     btnCamara.disabled = true;
+
 
     try {
 
@@ -835,68 +1155,65 @@
             "reader",
             {
               formatsToSupport: [
-                Html5QrcodeSupportedFormats.QR_CODE
+                Html5QrcodeSupportedFormats
+                  .QR_CODE
               ],
+
               verbose: false
             }
           );
       }
 
 
-      await qrScanner.start(
+      try {
 
-        {
-          facingMode: {
-            exact: "environment"
-          }
-        },
+        await qrScanner.start(
 
-        {
-          fps: 10,
-
-          qrbox: function(
-            viewfinderWidth,
-            viewfinderHeight
-          ) {
-
-            const minEdgePercentage = 0.68;
-
-            const minEdgeSize =
-              Math.min(
-                viewfinderWidth,
-                viewfinderHeight
-              );
-
-            const qrboxSize =
-              Math.floor(
-                minEdgeSize *
-                minEdgePercentage
-              );
-
-            return {
-              width: qrboxSize,
-              height: qrboxSize
-            };
+          {
+            facingMode: {
+              exact:
+                "environment"
+            }
           },
 
-          aspectRatio: 1.0
-        },
+          configuracionCamara(),
 
-        onScanSuccess,
+          onScanSuccess,
 
-        () => {
-          // Los errores de lectura mientras
-          // busca un QR son normales.
-        }
-      );
+          () => {}
+        );
+
+      } catch (error) {
+
+        /*
+          Fallback para dispositivos
+          que no aceptan exact: environment.
+        */
+
+        await qrScanner.start(
+
+          {
+            facingMode:
+              "environment"
+          },
+
+          configuracionCamara(),
+
+          onScanSuccess,
+
+          () => {}
+        );
+      }
 
 
       camaraActiva = true;
 
       scannerPausado = false;
 
+
       scannerStatus.textContent =
         "Scanner activo";
+
 
       btnCamara
         .classList
@@ -907,17 +1224,56 @@
 
       console.error(error);
 
+
       scannerContainer
         .classList
         .add("oculto");
 
+
       btnCamara.disabled = false;
+
 
       alert(
         "No fue posible activar la cámara. " +
-        "Revisa que Safari tenga permiso para usarla."
+        "Revisa los permisos del navegador."
       );
     }
+  }
+
+
+
+  function configuracionCamara() {
+
+    return {
+
+      fps: 10,
+
+      qrbox: function(
+        width,
+        height
+      ) {
+
+        const minEdge =
+          Math.min(
+            width,
+            height
+          );
+
+
+        const size =
+          Math.floor(
+            minEdge * 0.68
+          );
+
+
+        return {
+          width: size,
+          height: size
+        };
+      },
+
+      aspectRatio: 1.0
+    };
   }
 
 
@@ -939,15 +1295,19 @@
       }
     }
 
+
     camaraActiva = false;
 
     scannerPausado = false;
 
+
     btnCamara.disabled = false;
+
 
     btnCamara
       .classList
       .remove("oculto");
+
 
     scannerContainer
       .classList
@@ -956,9 +1316,9 @@
 
 
 
-  /* =========================================================
-     QR ENCONTRADO
-  ========================================================= */
+  /* ==========================================
+     QR DETECTADO
+  ========================================== */
 
   async function onScanSuccess(
     decodedText
@@ -980,10 +1340,12 @@
 
         qrScanner.pause(false);
 
+
         scannerPausado = true;
 
+
         scannerStatus.textContent =
-          "Scanner paused";
+          "Scanner pausado";
 
       } catch (error) {
 
@@ -1002,9 +1364,9 @@
 
 
 
-  /* =========================================================
-     VALIDAR CON APPS SCRIPT
-  ========================================================= */
+  /* ==========================================
+     VALIDAR BOLETO
+  ========================================== */
 
   async function validarCodigo(
     codigo
@@ -1014,16 +1376,12 @@
 
 
     const pin =
-      localStorage.getItem(PIN_KEY) || "";
+      localStorage.getItem(
+        PIN_KEY
+      ) || "";
 
 
     try {
-
-      /*
-        text/plain evita una petición OPTIONS
-        innecesaria y Apps Script igualmente
-        recibe el JSON en e.postData.contents.
-      */
 
       const respuesta =
         await fetch(
@@ -1052,19 +1410,36 @@
         await respuesta.text();
 
 
-      let datos;
+      const datos =
+        JSON.parse(texto);
 
 
-      try {
+      /*
+        Si el PIN guardado dejó de ser válido,
+        borramos la sesión inmediatamente.
+      */
 
-        datos =
-          JSON.parse(texto);
+      if (
+        datos.estado ===
+        "PIN_INCORRECTO"
+      ) {
 
-      } catch (error) {
-
-        throw new Error(
-          "El servidor devolvió una respuesta no válida."
+        localStorage.removeItem(
+          PIN_KEY
         );
+
+
+        await detenerCamara();
+
+
+        alert(
+          "El PIN de acceso ya no es válido."
+        );
+
+
+        mostrarLogin();
+
+        return;
       }
 
 
@@ -1075,9 +1450,12 @@
 
       console.error(error);
 
+
       mostrarResultado({
         ok: false,
+
         estado: "ERROR",
+
         mensaje:
           "No se pudo conectar con el servidor."
       });
@@ -1086,15 +1464,20 @@
 
 
 
-  /* =========================================================
+  /* ==========================================
      MOSTRAR RESULTADO
-  ========================================================= */
+  ========================================== */
 
-  function mostrarResultado(datos) {
+  function mostrarResultado(
+    datos
+  ) {
 
-    resultado.style.display = "block";
+    resultado.style.display =
+      "block";
+
 
     resultado.className = "";
+
 
     btnSiguiente
       .classList
@@ -1105,9 +1488,8 @@
       datos.estado || "";
 
 
-    /* =====================
-       ACCESO VÁLIDO
-    ====================== */
+
+    /* ACCESO VÁLIDO */
 
     if (
       datos.ok === true &&
@@ -1118,25 +1500,29 @@
         "valido"
       );
 
+
       resultadoTitulo.textContent =
         "✅ ACCESO VÁLIDO";
+
 
       resultadoFolio.textContent =
         datos.folio || "";
 
+
       resultadoDetalle.textContent =
-        formatearFecha(
-          datos.hora_entrada
-        );
+        datos.hora_entrada
+          ? formatearFecha(
+              datos.hora_entrada
+            )
+          : "";
+
 
       return;
     }
 
 
 
-    /* =====================
-       YA UTILIZADO
-    ====================== */
+    /* YA UTILIZADO */
 
     if (estado === "USADO") {
 
@@ -1144,132 +1530,129 @@
         "error"
       );
 
+
       resultadoTitulo.textContent =
         "⛔ BOLETO YA UTILIZADO";
+
 
       resultadoFolio.textContent =
         datos.folio || "";
 
+
       resultadoDetalle.textContent =
         datos.hora_entrada
+
           ? "Entrada registrada: " +
             formatearFecha(
               datos.hora_entrada
             )
+
           : "";
+
 
       return;
     }
 
 
 
-    /* =====================
-       NO ACTIVADO
-    ====================== */
+    /* NO ACTIVADO */
 
-    if (estado === "NO_ACTIVADO") {
+    if (
+      estado === "NO_ACTIVADO"
+    ) {
 
       resultado.classList.add(
         "advertencia"
       );
 
+
       resultadoTitulo.textContent =
         "⚠️ BOLETO NO ACTIVADO";
 
+
       resultadoFolio.textContent =
         datos.folio || "";
+
 
       resultadoDetalle.textContent =
         "Este boleto todavía no está registrado como vendido.";
 
+
       return;
     }
 
 
 
-    /* =====================
-       CANCELADO
-    ====================== */
+    /* CANCELADO */
 
-    if (estado === "CANCELADO") {
+    if (
+      estado === "CANCELADO"
+    ) {
 
       resultado.classList.add(
         "error"
       );
+
 
       resultadoTitulo.textContent =
         "🚫 BOLETO CANCELADO";
 
+
       resultadoFolio.textContent =
         datos.folio || "";
+
 
       resultadoDetalle.textContent =
         "Este boleto no tiene acceso al evento.";
 
+
       return;
     }
 
 
 
-    /* =====================
-       NO EXISTE
-    ====================== */
+    /* CÓDIGO FALSO */
 
-    if (estado === "NO_EXISTE") {
+    if (
+      estado === "NO_EXISTE"
+    ) {
 
       resultado.classList.add(
         "error"
       );
+
 
       resultadoTitulo.textContent =
         "❌ CÓDIGO NO RECONOCIDO";
 
-      resultadoFolio.textContent = "";
+
+      resultadoFolio.textContent =
+        "";
+
 
       resultadoDetalle.textContent =
-        "El código no pertenece a los boletos oficiales.";
+        "El QR no pertenece a los boletos oficiales.";
+
 
       return;
     }
 
 
 
-    /* =====================
-       PIN INCORRECTO
-    ====================== */
-
-    if (estado === "PIN_INCORRECTO") {
-
-      resultado.classList.add(
-        "error"
-      );
-
-      resultadoTitulo.textContent =
-        "🔒 PIN INCORRECTO";
-
-      resultadoFolio.textContent = "";
-
-      resultadoDetalle.textContent =
-        "Pulsa Cambiar PIN e inténtalo nuevamente.";
-
-      return;
-    }
-
-
-
-    /* =====================
-       OTROS ERRORES
-    ====================== */
+    /* OTRO ERROR */
 
     resultado.classList.add(
       "error"
     );
 
+
     resultadoTitulo.textContent =
       "⚠️ ERROR";
 
+
     resultadoFolio.textContent =
       datos.folio || "";
+
 
     resultadoDetalle.textContent =
       datos.mensaje ||
@@ -1278,9 +1661,9 @@
 
 
 
-  /* =========================================================
+  /* ==========================================
      ESCANEAR SIGUIENTE
-  ========================================================= */
+  ========================================== */
 
   btnSiguiente.addEventListener(
     "click",
@@ -1299,10 +1682,13 @@
 
           qrScanner.resume();
 
+
           scannerPausado = false;
+
 
           scannerStatus.textContent =
             "Scanner activo";
+
 
         } catch (error) {
 
@@ -1310,12 +1696,14 @@
         }
       }
 
+
       else if (
         reiniciarCamaraDespuesDeFoto
       ) {
 
         reiniciarCamaraDespuesDeFoto =
           false;
+
 
         await activarCamara();
       }
@@ -1326,15 +1714,24 @@
 
   function limpiarResultado() {
 
-    resultado.style.display = "none";
+    resultado.style.display =
+      "none";
+
 
     resultado.className = "";
 
-    resultadoTitulo.textContent = "";
 
-    resultadoFolio.textContent = "";
+    resultadoTitulo.textContent =
+      "";
 
-    resultadoDetalle.textContent = "";
+
+    resultadoFolio.textContent =
+      "";
+
+
+    resultadoDetalle.textContent =
+      "";
+
 
     btnSiguiente
       .classList
@@ -1343,9 +1740,9 @@
 
 
 
-  /* =========================================================
-     LEER QR DESDE UNA FOTO
-  ========================================================= */
+  /* ==========================================
+     LEER QR DESDE FOTO
+  ========================================== */
 
   btnFoto.addEventListener(
     "click",
@@ -1358,12 +1755,14 @@
   );
 
 
+
   fileInput.addEventListener(
     "change",
-    async (event) => {
+    async event => {
 
       const archivo =
         event.target.files[0];
+
 
       if (!archivo) return;
 
@@ -1373,21 +1772,19 @@
 
       try {
 
-        /*
-          scanFile no puede trabajar mientras
-          el lector de cámara está corriendo.
-        */
-
         if (camaraActiva) {
 
           reiniciarCamaraDespuesDeFoto =
             true;
 
+
           await qrScanner.stop();
+
 
           camaraActiva = false;
 
           scannerPausado = false;
+
 
           scannerContainer
             .classList
@@ -1402,7 +1799,8 @@
               "reader",
               {
                 formatsToSupport: [
-                  Html5QrcodeSupportedFormats.QR_CODE
+                  Html5QrcodeSupportedFormats
+                    .QR_CODE
                 ]
               }
             );
@@ -1418,7 +1816,11 @@
 
         procesando = true;
 
-        await validarCodigo(codigo);
+
+        await validarCodigo(
+          codigo
+        );
+
 
         procesando = false;
 
@@ -1427,11 +1829,15 @@
 
         console.error(error);
 
+
         procesando = false;
+
 
         mostrarResultado({
           ok: false,
+
           estado: "ERROR",
+
           mensaje:
             "No pude encontrar un código QR válido en esa imagen."
         });
@@ -1441,11 +1847,13 @@
 
 
 
-  /* =========================================================
-     FORMATO FECHA
-  ========================================================= */
+  /* ==========================================
+     FECHA
+  ========================================== */
 
-  function formatearFecha(valor) {
+  function formatearFecha(
+    valor
+  ) {
 
     if (!valor) return "";
 
@@ -1460,10 +1868,15 @@
         "es-MX",
         {
           day: "2-digit",
+
           month: "2-digit",
+
           year: "numeric",
+
           hour: "2-digit",
+
           minute: "2-digit",
+
           second: "2-digit"
         }
       );
@@ -1476,6 +1889,7 @@
   }
 
 </script>
+
 
 </body>
 </html>
